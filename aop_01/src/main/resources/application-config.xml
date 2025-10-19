@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+	<bean id="performanceAspect" class="aop_01.com.spring_aop.xml.PerformanceAspect"/>
+	<aop:config>
+		<!--  advice 클래스 등록 -->
+		<aop:aspect id="performanceAspect" ref="performanceAspect">
+			<!--
+				where 개념 구현 : spring_aop_xml 패키지 내의 모든 메서드에 적용,
+				어떤 메서드에 Advice를 적용할지를 정의
+			-->
+			<aop:pointcut expression="within(aop_01.com.spring_aop.xml.*)" id="timeElapse"/>
+			<!-- 
+				what : trace() 메서드가 advice메서드로 적용됨
+				when : 핵심기능 전/후에 적용 되도록 설정
+			-->
+			<aop:around pointcut-ref="timeElapse" method="trace"/>
+		</aop:aspect>
+	</aop:config>
+	<context:annotation-config />
+	<bean id="rect" class="aop_01.com.spring_aop.xml.Rect">
+		<!-- setter 사용과 동일 -->
+		<property name="width" value="10"/>
+		<property name="height" value="20"/>
+	</bean>
+	<bean id="gugudan" class="aop_01.com.spring_aop.xml.Gugudan">
+		<!-- setter 사용과 동일 -->
+		<property name="dan" value="7"/>
+	</bean>
+</beans>
